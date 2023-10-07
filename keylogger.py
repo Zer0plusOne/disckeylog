@@ -6,7 +6,7 @@
 #╚════╝╚══╝╚╝ ╚═══╝╚╝   ╚═╝╚══╝╚══╝╚═══╝╚╝╚╝╚══╝
 #
 #   Github: https://github.com/Zer0plusOne      Discord: @zer0who       Instagram: @sanchez_g2k04                                      
-#This code was made with educational purposes by a ENTI-UB cybersecurity student. [currently in first curse]
+#   This code was made with educational purposes by a ENTI-UB cybersecurity student. [currently in first curse]
 
 
 
