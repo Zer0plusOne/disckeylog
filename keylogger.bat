@@ -16,7 +16,6 @@ if %errorlevel% neq 0 (
 :gitinstall
 echo "Installing Git..."
 winget install --id Git.Git -e --source winget
-timeout /t 60
 goto check01
 
 :: checkea si python esta instalado
@@ -28,8 +27,7 @@ goto clone
 ::Instala python
 :errorNoPython
 echo Installing Python...
-start /wait https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe
-timeout /t 60
+winget install -e --id Python.Python -v 3.9.0
 goto check02
 
 :: clona el repositorio de github
