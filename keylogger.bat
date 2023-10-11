@@ -15,7 +15,7 @@ if %errorlevel% neq 0 (
 
 :gitinstall
 echo "Installing Git..."
-start /wait https://git-scm.com/download/win
+winget install --id Git.Git -e --source winget
 timeout /t 60
 goto check01
 
