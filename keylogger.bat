@@ -1,15 +1,9 @@
 @echo off
-:prelog
-if exist "C:\ProgramData\chocolatey" (
-    echo Chocolatey is installed.
-    goto check01 
-) else (
-    echo Chocolatey is not installed.
-    goto start
-)
+
 :start
 @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 goto check01
+
 ::check si git esta instalado
 :check01
 where git > nul 2>&1
@@ -25,7 +19,8 @@ if %errorlevel% neq 0 (
 
 :gitinstall
 echo "Installing Git..."
-winget install --id Git.Git -e --source winget
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(‘https://community.chocolatey.org/install.ps1’))
+choco install git.install
 goto check01
 
 :: checkea si python esta instalado
